@@ -1,0 +1,16 @@
+{
+  "build": {
+    "context": "${localWorkspaceFolder}",
+    "dockerfile": "${localWorkspaceFolder}/Dockerfile",
+    "args": {
+      "CUDA": "11.8"
+    }
+  },
+  "hostRequirements": {
+    "gpu": true
+  },
+  "workspaceFolder": "/home/coder",
+  "mounts": [
+    "source=${localWorkspaceFolder}/home/coder/.local/bin,target=/home/coder/.local/bin,type=bind,consistency=consistent"
+  ]
+}

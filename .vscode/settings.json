@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "**/home/coder/.local/bin/*": "shellscript"
+  },
+  "[json]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  }
+}
