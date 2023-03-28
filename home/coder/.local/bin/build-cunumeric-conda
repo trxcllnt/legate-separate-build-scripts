@@ -54,7 +54,7 @@ EOF
     CUDA=${CUDA_VERSION_MAJOR}.${CUDA_VERSION_MINOR} \
     conda mambabuild ${conda_build_args[@]} ~/cunumeric/conda/conda-build;
 
-    git -C ~/cunumeric checkout HEAD~1;
+    git -C ~/cunumeric reset --hard HEAD~1;
 
     cp /tmp/conda-build/cunumeric/linux-64/cunumeric-*.tar.bz2 /tmp/out/;
 
