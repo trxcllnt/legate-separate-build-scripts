@@ -26,11 +26,15 @@ jobs:
         shell: bash -elixo pipefail {0}
         run: |
 
-          echo "Action token scopes:"
-          gh api -i -X GET --silent rate_limit 2>/dev/null | grep -i 'x-oauth-scopes:';
+          echo -n "Action token scopes:"                                     && \
+          GH_TOKEN="${{ github.token }}" GITHUB_TOKEN="${{ github.token }}"     \
+            gh api -i -X GET --silent rate_limit | grep -i 'x-oauth-scopes:' || \
+          echo "Error reading action token scopes!";
 
-          echo "Custom token scopes:"
-          GITHUB_TOKEN= gh api -i -X GET --silent rate_limit 2>/dev/null | grep -i 'x-oauth-scopes:';
+          echo -n "Custom token scopes:"                                     && \
+          GH_TOKEN="${GH_TOKEN}" GITHUB_TOKEN="${GH_TOKEN}"                     \
+            gh api -i -X GET --silent rate_limit | grep -i 'x-oauth-scopes:' || \
+          echo "Error reading custom token scopes!";
 
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
           mv /tmp/repo/home/coder/.{local,gitconfig} /home/coder/;

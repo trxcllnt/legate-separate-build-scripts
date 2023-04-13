@@ -34,5 +34,5 @@ docker run --rm -it -u coder \
     -v "$(pwd)/out:/tmp/out" \
     -v "$(pwd)/.creds:/run/secrets" \
     legate-separate-build-scripts \
-    bash -i build-all
+    /bin/bash -i build-all
 ```
