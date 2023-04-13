@@ -30,4 +30,4 @@ jobs:
           chown -R coder:coder /home/coder/;
           chmod a+x /home/coder/.local/bin/*;
           rm -rf /tmp/repo;
-          su -p coder -c 'entrypoint build-all';
+          su -p coder -c '/home/coder/.local/bin/entrypoint build-all';
