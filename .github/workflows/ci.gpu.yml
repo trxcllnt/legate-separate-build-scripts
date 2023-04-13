@@ -1,0 +1,35 @@
+name: CI (GPU)
+
+concurrency:
+  group: ci-gpu-on-${{ github.event_name }}-from-${{ github.ref_name }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      options: -u root
+      image: rapidsai/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
+      env:
+        DEFAULT_CONDA_ENV: "legate"
+        PYTHONDONTWRITEBYTECODE: "1"
+        SCCACHE_REGION: "us-east-2"
+        SCCACHE_BUCKET: "rapids-sccache-devs"
+        SCCACHE_S3_KEY_PREFIX: "legate-cunumeric-dev"
+        VAULT_HOST: "https://vault.ops.k8s.rapids.ai"
+        GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+    steps:
+      - name: Build
+        shell: bash -elxo pipefail {0}
+        run: |
+          su coder;
+          cd ~/coder;
+          mkdir -p ~/.{cache,local/bin};
+          git clone https://github.com/trxcllnt/legate-separate-build-scripts.git;
+          cp -ar ~/legate-separate-build-scripts/home/coder/.gitconfig ~/.gitconfig;
+          cp -ar ~/legate-separate-build-scripts/home/coder/.local/bin/* ~/.local/bin/;
+          rm -rf ~/legate-separate-build-scripts;
+          . ~/.local/bin/entrypoint build-all;
