@@ -25,10 +25,9 @@ jobs:
       - name: Build
         shell: bash -elixo pipefail {0}
         run: |
-          whoami;
-          su - coder;
-          whoami;
-          git clone https://github.com/trxcllnt/legate-separate-build-scripts.git ~/lsbs;
-          mv ~/lsbs/home/coder/.{local,gitconfig} ~/ && rm -rf ~/lsbs;
-          chmod a+x ~/.local/bin/*;
-          bash -elixo pipefail ~/.local/bin/entrypoint build-all;
+          git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
+          mv /tmp/repo/home/coder/.{local,gitconfig} /home/coder/;
+          chown -R coder:coder /home/coder/;
+          chmod a+x /home/coder/.local/bin/*;
+          rm -rf /tmp/repo;
+          su -p coder -c 'entrypoint build-all';
