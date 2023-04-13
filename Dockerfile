@@ -1,8 +1,8 @@
 ARG CUDA=11.8
-# FROM rapidsai/devcontainers:23.04-cpp-mambaforge-ubuntu22.04
-FROM rapidsai/devcontainers:23.04-cpp-cuda${CUDA}-mambaforge-ubuntu22.04
-# FROM rapidsai/devcontainers:23.04-cpp-llvm15-rust-cuda${CUDA}-mambaforge-ubuntu22.04
-# FROM rapidsai/devcontainers:23.04-cpp-llvm16-rust-cuda${CUDA}-mambaforge-ubuntu22.04
+# FROM rapidsai/devcontainers:23.06-cpp-mambaforge-ubuntu22.04
+FROM rapidsai/devcontainers:23.06-cpp-cuda${CUDA}-mambaforge-ubuntu22.04
+# FROM rapidsai/devcontainers:23.06-cpp-llvm15-rust-cuda${CUDA}-mambaforge-ubuntu22.04
+# FROM rapidsai/devcontainers:23.06-cpp-llvm16-rust-cuda${CUDA}-mambaforge-ubuntu22.04
 
 RUN export DEBIAN_FRONTEND=noninteractive       \
  && sudo apt update                             \

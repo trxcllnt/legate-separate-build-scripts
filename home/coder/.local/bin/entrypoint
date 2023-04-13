@@ -2,10 +2,6 @@
 
 mkdir -p /home/coder/.cache;
 
-if ! /opt/devcontainer/bin/vault/s3/test.sh 2>&1 >/dev/null; then
-    /opt/devcontainer/bin/post-attach-command.sh;
-fi
-
-. /opt/devcontainer/bin/vault/s3/export.sh;
+. devcontainer-utils-post-attach-command;
 
 exec "$@";
