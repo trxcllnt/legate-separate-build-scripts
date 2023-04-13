@@ -33,6 +33,7 @@ USER coder
 WORKDIR /home/coder/.cache
 WORKDIR /home/coder
 
+COPY --chown=coder:coder home/coder/.gitconfig /home/coder/
 COPY --chown=coder:coder home/coder/.local/bin/* /home/coder/.local/bin/
 
 ENTRYPOINT ["/home/coder/.local/bin/entrypoint"]
