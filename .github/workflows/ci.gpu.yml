@@ -14,20 +14,21 @@ jobs:
       options: -u root
       image: rapidsai/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
       env:
-        DEFAULT_CONDA_ENV: "legate"
-        PYTHONDONTWRITEBYTECODE: "1"
-        SCCACHE_REGION: "us-east-2"
-        SCCACHE_BUCKET: "rapids-sccache-devs"
-        SCCACHE_S3_KEY_PREFIX: "legate-cunumeric-dev"
-        VAULT_HOST: "https://vault.ops.k8s.rapids.ai"
-        GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+        DEFAULT_CONDA_ENV: legate
+        PYTHONDONTWRITEBYTECODE: 1
+        SCCACHE_REGION: us-east-2
+        SCCACHE_BUCKET: rapids-sccache-devs
+        SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
+        VAULT_HOST: https://vault.ops.k8s.rapids.ai
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     steps:
       - name: Build
-        shell: bash -elixo pipefail {0}
+        shell: bash -eio pipefail {0}
         run: |
 
           echo -n "Action token scopes:"                                     && \
-          GH_TOKEN="${{ github.token }}" GITHUB_TOKEN="${{ github.token }}"     \
+          GH_TOKEN="${GITHUB_TOKEN}" GITHUB_TOKEN="${GITHUB_TOKEN}"             \
             gh api -i -X GET --silent rate_limit | grep -i 'x-oauth-scopes:' || \
           echo "Error reading action token scopes!";
 
