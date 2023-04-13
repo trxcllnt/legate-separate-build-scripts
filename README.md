@@ -1,16 +1,38 @@
 # Usage
 
+Run interactively:
+
 ```bash
-mkdir -p ./out
+mkdir -p ./out ./.creds
 
 docker build -t legate-separate-build-scripts .
 
-# To skip the GitHub CLI login prompt, run with:
-#   `-e GH_TOKEN=<GitHub personal access token>`
-# where GH_TOKEN has "read:org" and "user:email" scopes
-
+# Run interactively:
 docker run --rm -it -u coder \
     -v "$(pwd)/out:/tmp/out" \
     legate-separate-build-scripts \
     /bin/bash -i build-all
+```
+
+To run headlessly:
+
+```bash
+mkdir -p ./out ./.creds
+
+docker build -t legate-separate-build-scripts .
+
+# 1. Generate a personal access token (at https://github.com/settings/tokens/new) with scopes:
+#    public_repo, read:org, gist
+# 2. Save this scope to .creds/GH_TOKEN:
+
+cat <<EOF > .creds/GH_TOKEN
+<YOUR GITHUB PERSONAL ACCESS TOKEN HERE>
+EOF
+
+# 3. Mount the .creds directory into the container
+docker run --rm -it -u coder \
+    -v "$(pwd)/out:/tmp/out" \
+    -v "$(pwd)/.creds:/run/secrets" \
+    legate-separate-build-scripts \
+    bash -i build-all
 ```
