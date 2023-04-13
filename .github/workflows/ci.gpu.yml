@@ -20,29 +20,25 @@ jobs:
         SCCACHE_BUCKET: rapids-sccache-devs
         SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
         VAULT_HOST: https://vault.ops.k8s.rapids.ai
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        GA_TOKEN: "${{secrets.GITHUB_TOKEN}}"
+        GH_TOKEN: "${{secrets.PERSONAL_ACCESS_TOKEN}}"
     steps:
       - name: Build
-        shell: bash -eio pipefail {0}
+        shell: bash -eo pipefail {0}
         run: |
 
-          echo "Action token:"        && \
-          GH_TOKEN="${GITHUB_TOKEN}"     \
-          GITHUB_TOKEN="${GITHUB_TOKEN}" \
-            gh auth status;
+          echo "Action token:";
+          GITHUB_TOKEN= GH_TOKEN=${GA_TOKEN} gh auth status || true;
 
-          echo "Custom token:"       && \
-          GH_TOKEN="${GH_TOKEN}"        \
-          GITHUB_TOKEN="${GH_TOKEN}"    \
-            gh auth status;
+          echo "Custom token:";
+          GITHUB_TOKEN= GH_TOKEN=${GH_TOKEN} gh auth status || true;
 
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
           mv /tmp/repo/home/coder/.{local,gitconfig} /home/coder/;
           chown -R coder:coder /home/coder/;
           chmod a+x /home/coder/.local/bin/*;
           rm -rf /tmp/repo;
-          su -p coder -c '
-          whoami;
-          /home/coder/.local/bin/entrypoint build-all;
-          ';
+
+          su - coder -c "\
+          GITHUB_TOKEN= GH_TOKEN=${GH_TOKEN} \
+            ~/.local/bin/entrypoint build-all";
