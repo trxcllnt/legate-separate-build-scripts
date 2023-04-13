@@ -23,13 +23,12 @@ jobs:
         GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
     steps:
       - name: Build
-        shell: bash -elxo pipefail {0}
+        shell: bash -elixo pipefail {0}
         run: |
-          su coder;
-          cd ~/coder;
-          mkdir -p ~/.{cache,local/bin};
-          git clone https://github.com/trxcllnt/legate-separate-build-scripts.git;
-          cp -ar ~/legate-separate-build-scripts/home/coder/.gitconfig ~/.gitconfig;
-          cp -ar ~/legate-separate-build-scripts/home/coder/.local/bin/* ~/.local/bin/;
-          rm -rf ~/legate-separate-build-scripts;
-          . ~/.local/bin/entrypoint build-all;
+          whoami;
+          su - coder;
+          whoami;
+          git clone https://github.com/trxcllnt/legate-separate-build-scripts.git ~/lsbs;
+          mv ~/lsbs/home/coder/.{local,gitconfig} ~/ && rm -rf ~/lsbs;
+          chmod +ax ~/.local/bin/*;
+          bash -elixo pipefail ~/.local/bin/entrypoint build-all;
