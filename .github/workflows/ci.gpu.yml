@@ -27,19 +27,22 @@ jobs:
         shell: bash -eio pipefail {0}
         run: |
 
-          echo -n "Action token scopes:"                                     && \
-          GH_TOKEN="${GITHUB_TOKEN}" GITHUB_TOKEN="${GITHUB_TOKEN}"             \
-            gh api -i -X GET --silent rate_limit | grep -i 'x-oauth-scopes:' || \
-          echo "Error reading action token scopes!";
+          echo "Action token:"        && \
+          GH_TOKEN="${GITHUB_TOKEN}"     \
+          GITHUB_TOKEN="${GITHUB_TOKEN}" \
+            gh auth status;
 
-          echo -n "Custom token scopes:"                                     && \
-          GH_TOKEN="${GH_TOKEN}" GITHUB_TOKEN="${GH_TOKEN}"                     \
-            gh api -i -X GET --silent rate_limit | grep -i 'x-oauth-scopes:' || \
-          echo "Error reading custom token scopes!";
+          echo "Custom token:"       && \
+          GH_TOKEN="${GH_TOKEN}"        \
+          GITHUB_TOKEN="${GH_TOKEN}"    \
+            gh auth status;
 
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
           mv /tmp/repo/home/coder/.{local,gitconfig} /home/coder/;
           chown -R coder:coder /home/coder/;
           chmod a+x /home/coder/.local/bin/*;
           rm -rf /tmp/repo;
-          su -p coder -c '/home/coder/.local/bin/entrypoint build-all';
+          su -p coder -c '
+          whoami;
+          /home/coder/.local/bin/entrypoint build-all;
+          ';
