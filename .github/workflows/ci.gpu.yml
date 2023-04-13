@@ -25,6 +25,13 @@ jobs:
       - name: Build
         shell: bash -elixo pipefail {0}
         run: |
+
+          echo "Action token scopes:"
+          gh api -i -X GET --silent rate_limit 2>/dev/null | grep -i 'x-oauth-scopes:';
+
+          echo "Custom token scopes:"
+          GITHUB_TOKEN= gh api -i -X GET --silent rate_limit 2>/dev/null | grep -i 'x-oauth-scopes:';
+
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
           mv /tmp/repo/home/coder/.{local,gitconfig} /home/coder/;
           chown -R coder:coder /home/coder/;
