@@ -30,5 +30,5 @@ jobs:
           whoami;
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git ~/lsbs;
           mv ~/lsbs/home/coder/.{local,gitconfig} ~/ && rm -rf ~/lsbs;
-          chmod +ax ~/.local/bin/*;
+          chmod a+x ~/.local/bin/*;
           bash -elixo pipefail ~/.local/bin/entrypoint build-all;
