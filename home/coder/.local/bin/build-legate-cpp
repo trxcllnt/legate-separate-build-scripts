@@ -33,7 +33,7 @@ build_legate_cpp() {
         's/= unknown/= unknown + ["--prefix", args.prefix]/' \
         ~/legate/build/_deps/legion-src/bindings/python/setup.py;
 
-    time cmake --build ~/legate/build;
+    time cmake --build ~/legate/build --parallel ${JOBS:-$(nproc --ignore=1)};
 
     (
     mkdir -p /tmp/out;

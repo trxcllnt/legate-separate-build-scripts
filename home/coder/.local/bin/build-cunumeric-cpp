@@ -14,7 +14,7 @@ build_cunumeric_cpp() {
 
     cmake -S ~/cunumeric -B ~/cunumeric/build ${cmake_args[@]} -GNinja;
 
-    time cmake --build ~/cunumeric/build;
+    time cmake --build ~/cunumeric/build --parallel ${JOBS:-$(nproc --ignore=1)};
 
     (
     mkdir -p /tmp/out;
