@@ -38,13 +38,13 @@ jobs:
           chown -R coder:coder /home/coder/;
           rm -rf /tmp/repo;
 
-          exec sudo -iu coder --preserve-env=\
-          PATH,\
-          GH_TOKEN,\
-          VAULT_HOST,\
-          SCCACHE_REGION,\
-          SCCACHE_BUCKET,\
-          SCCACHE_S3_KEY_PREFIX,\
-          PYTHONDONTWRITEBYTECODE \
-          /home/coder/.local/bin/entrypoint \
-            bash -i build-all;
+          su - coder -Pc "                                   \
+          PATH=${PATH}                                       \
+          VAULT_HOST=${VAULT_HOST}                           \
+          GH_TOKEN=${GITHUB_TOKEN}                           \
+          GITHUB_TOKEN=${GITHUB_TOKEN}                       \
+          SCCACHE_BUCKET=${SCCACHE_BUCKET}                   \
+          SCCACHE_REGION=${SCCACHE_REGION}                   \
+          SCCACHE_S3_KEY_PREFIX=${SCCACHE_S3_KEY_PREFIX}     \
+          PYTHONDONTWRITEBYTECODE=${PYTHONDONTWRITEBYTECODE} \
+            ~/.local/bin/entrypoint bash -i build-all";
