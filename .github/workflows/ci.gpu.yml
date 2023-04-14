@@ -20,8 +20,6 @@ jobs:
         SCCACHE_BUCKET: rapids-sccache-devs
         SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
         VAULT_HOST: https://vault.ops.k8s.rapids.ai
-        GA_TOKEN: "${{secrets.GITHUB_TOKEN}}"
-        GH_TOKEN: "${{secrets.PERSONAL_ACCESS_TOKEN}}"
     steps:
       - name: Build
         shell: bash -eo pipefail {0}
@@ -31,18 +29,18 @@ jobs:
           # apt install -y --no-install-recommends \
           #     numactl rlwrap;
 
-          echo "Auth status:"
+          echo "Logout gh cli:"
           gh auth status || true;
-
-          echo "Logging out";
           gh auth logout || true;
+          GITHUB_TOKEN= gh auth status || true;
+          GITHUB_TOKEN= gh auth logout || true;
           rm ~/.config/gh/hosts.yml || true;
 
           echo "Action token:";
-          GITHUB_TOKEN= GH_TOKEN=${GA_TOKEN} gh auth status || true;
+          GITHUB_TOKEN= GH_TOKEN=${{secrets.GITHUB_TOKEN}} gh auth status || true;
 
           echo "Custom token:";
-          GITHUB_TOKEN= GH_TOKEN=${GH_TOKEN} gh auth status || true;
+          GITHUB_TOKEN= GH_TOKEN=${{secrets.PERSONAL_ACCESS_TOKEN}} gh auth status || true;
 
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
           mv /tmp/repo/home/coder/.gitconfig /home/coder/.gitconfig;
@@ -53,7 +51,7 @@ jobs:
 
           su - coder -c "\
           GITHUB_TOKEN='' \
-          GH_TOKEN='${GH_TOKEN}' \
+          GH_TOKEN='${{secrets.PERSONAL_ACCESS_TOKEN}}' \
           VAULT_HOST='${VAULT_HOST}' \
           SCCACHE_BUCKET='${SCCACHE_BUCKET}' \
           SCCACHE_REGION='${SCCACHE_REGION}' \
