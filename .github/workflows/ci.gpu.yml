@@ -44,10 +44,10 @@ jobs:
           chown -R coder:coder /home/coder/;
           rm -rf /tmp/repo;
 
-          su - coder -c "\
-          VAULT_HOST='${VAULT_HOST}' \
-          GH_TOKEN='${GITHUB_TOKEN}' \
-          GITHUB_TOKEN='${GITHUB_TOKEN}' \
-          SCCACHE_BUCKET='${SCCACHE_BUCKET}' \
-          SCCACHE_REGION='${SCCACHE_REGION}' \
-            ~/.local/bin/entrypoint build-all";
+          su - coder -c "bash -ic '            \
+            VAULT_HOST=${VAULT_HOST}           \
+            GH_TOKEN=${GITHUB_TOKEN}           \
+            GITHUB_TOKEN=${GITHUB_TOKEN}       \
+            SCCACHE_BUCKET=${SCCACHE_BUCKET}   \
+            SCCACHE_REGION=${SCCACHE_REGION}   \
+            ~/.local/bin/entrypoint build-all'";
