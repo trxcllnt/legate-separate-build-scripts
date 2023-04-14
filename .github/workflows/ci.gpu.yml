@@ -47,4 +47,5 @@ jobs:
           SCCACHE_S3_KEY_PREFIX,\
           DEFAULT_CONDA_ENV,\
           PYTHONDONTWRITEBYTECODE \
-            bash -ic '~/.local/bin/entrypoint build-all';
+          /home/coder/.local/bin/entrypoint \
+            bash -i build-all;
