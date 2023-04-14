@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    permissions: read-all
     runs-on: ubuntu-latest
     container:
       options: -u root
@@ -20,6 +21,7 @@ jobs:
         SCCACHE_BUCKET: rapids-sccache-devs
         SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
         VAULT_HOST: https://vault.ops.k8s.rapids.ai
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     steps:
       - name: Build
         shell: bash -eo pipefail {0}
@@ -29,18 +31,10 @@ jobs:
           # apt install -y --no-install-recommends \
           #     numactl rlwrap;
 
-          echo "Logout gh cli:"
+          echo "gh auth status:";
           gh auth status || true;
-          gh auth logout || true;
-          GITHUB_TOKEN= gh auth status || true;
-          GITHUB_TOKEN= gh auth logout || true;
-          rm ~/.config/gh/hosts.yml || true;
-
-          echo "Action token:";
-          GITHUB_TOKEN= GH_TOKEN=${{secrets.GITHUB_TOKEN}} gh auth status || true;
-
-          echo "Custom token:";
-          GITHUB_TOKEN= GH_TOKEN=${{secrets.PERSONAL_ACCESS_TOKEN}} gh auth status || true;
+          echo "gh auth scopes:";
+          gh api -i -X GET --silent rate_limit | grep -i 'x-oauth-scopes:' || true;
 
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
           mv /tmp/repo/home/coder/.gitconfig /home/coder/.gitconfig;
@@ -50,9 +44,8 @@ jobs:
           rm -rf /tmp/repo;
 
           su - coder -c "\
-          GITHUB_TOKEN='' \
-          GH_TOKEN='${{secrets.PERSONAL_ACCESS_TOKEN}}' \
           VAULT_HOST='${VAULT_HOST}' \
+          GITHUB_TOKEN='${GITHUB_TOKEN}' \
           SCCACHE_BUCKET='${SCCACHE_BUCKET}' \
           SCCACHE_REGION='${SCCACHE_REGION}' \
             ~/.local/bin/entrypoint build-all";
