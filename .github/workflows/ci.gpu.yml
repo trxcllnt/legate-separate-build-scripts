@@ -40,6 +40,7 @@ jobs:
           rm -rf /tmp/repo;
 
           exec sudo -iu coder --preserve-env=\
+          PATH,\
           GH_TOKEN,\
           VAULT_HOST,\
           SCCACHE_REGION,\
