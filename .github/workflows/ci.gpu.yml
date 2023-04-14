@@ -26,6 +26,10 @@ jobs:
       - name: Build
         shell: bash -eo pipefail {0}
         run: |
+          # apt update;
+          # DEBIAN_FRONTEND=noninteractive \
+          # apt install -y --no-install-recommends \
+          #     numactl rlwrap;
 
           echo "Action token:";
           GITHUB_TOKEN= GH_TOKEN=${GA_TOKEN} gh auth status || true;
@@ -40,5 +44,9 @@ jobs:
           rm -rf /tmp/repo;
 
           su - coder -c "\
-          GITHUB_TOKEN= GH_TOKEN=${GH_TOKEN} \
+          GITHUB_TOKEN='' \
+          GH_TOKEN='${GA_TOKEN}' \
+          VAULT_HOST='${VAULT_HOST}' \
+          SCCACHE_BUCKET='${SCCACHE_BUCKET}' \
+          SCCACHE_REGION='${SCCACHE_REGION}' \
             ~/.local/bin/entrypoint build-all";
