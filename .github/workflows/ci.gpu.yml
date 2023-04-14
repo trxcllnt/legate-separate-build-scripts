@@ -50,4 +50,12 @@ jobs:
             GITHUB_TOKEN=${GITHUB_TOKEN}       \
             SCCACHE_BUCKET=${SCCACHE_BUCKET}   \
             SCCACHE_REGION=${SCCACHE_REGION}   \
-            ~/.local/bin/entrypoint build-all'";
+            ~/.local/bin/entrypoint echo yooo'";
+
+          # su - coder -c "bash -ic '            \
+          #   VAULT_HOST=${VAULT_HOST}           \
+          #   GH_TOKEN=${GITHUB_TOKEN}           \
+          #   GITHUB_TOKEN=${GITHUB_TOKEN}       \
+          #   SCCACHE_BUCKET=${SCCACHE_BUCKET}   \
+          #   SCCACHE_REGION=${SCCACHE_REGION}   \
+          #   ~/.local/bin/entrypoint build-all'";
