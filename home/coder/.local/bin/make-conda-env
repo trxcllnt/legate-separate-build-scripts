@@ -30,4 +30,7 @@ make_conda_env() {
     conda activate legate;
 }
 
+. /opt/conda/etc/profile.d/conda.sh;
+. /opt/conda/etc/profile.d/mamba.sh;
+
 make_conda_env "$@";
