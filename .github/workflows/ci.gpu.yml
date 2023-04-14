@@ -39,6 +39,8 @@ jobs:
           rm -rf /tmp/repo;
 
           su - coder -Pc "                                   \
+          JOBS=1                                             \
+          CMAKE_BUILD_PARALLEL_LEVEL=1                       \
           PATH=${PATH}                                       \
           VAULT_HOST=${VAULT_HOST}                           \
           GH_TOKEN=${GITHUB_TOKEN}                           \
