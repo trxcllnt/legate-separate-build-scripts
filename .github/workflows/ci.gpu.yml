@@ -31,6 +31,13 @@ jobs:
           # apt install -y --no-install-recommends \
           #     numactl rlwrap;
 
+          echo "Auth status:"
+          gh auth status || true;
+
+          echo "Logging out";
+          gh auth logout || true;
+          rm ~/.config/gh/hosts.yml || true;
+
           echo "Action token:";
           GITHUB_TOKEN= GH_TOKEN=${GA_TOKEN} gh auth status || true;
 
@@ -38,14 +45,15 @@ jobs:
           GITHUB_TOKEN= GH_TOKEN=${GH_TOKEN} gh auth status || true;
 
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
-          mv /tmp/repo/home/coder/.{local,gitconfig} /home/coder/;
-          chown -R coder:coder /home/coder/;
+          mv /tmp/repo/home/coder/.gitconfig /home/coder/.gitconfig;
+          mv /tmp/repo/home/coder/.local /home/coder/.local;
           chmod a+x /home/coder/.local/bin/*;
+          chown -R coder:coder /home/coder/;
           rm -rf /tmp/repo;
 
           su - coder -c "\
           GITHUB_TOKEN='' \
-          GH_TOKEN='${GA_TOKEN}' \
+          GH_TOKEN='${GH_TOKEN}' \
           VAULT_HOST='${VAULT_HOST}' \
           SCCACHE_BUCKET='${SCCACHE_BUCKET}' \
           SCCACHE_REGION='${SCCACHE_REGION}' \
