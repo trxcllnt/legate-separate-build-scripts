@@ -21,8 +21,9 @@ mkdir -p ./out ./.creds
 
 docker build -t legate-separate-build-scripts .
 
-# 1. Generate a personal access token (at https://github.com/settings/tokens/new) with scopes:
-#    public_repo, read:org, gist
+# 1. Generate a personal access token at
+#    https://github.com/settings/tokens/new
+#    with scopes: repo, read:org, gist
 # 2. Save this scope to .creds/GH_TOKEN:
 
 cat <<EOF > .creds/GH_TOKEN

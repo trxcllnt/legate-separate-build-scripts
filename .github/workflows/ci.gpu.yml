@@ -27,15 +27,10 @@ jobs:
       - name: Build
         shell: bash -eo pipefail {0}
         run: |
-          # apt update;
-          # DEBIAN_FRONTEND=noninteractive \
-          # apt install -y --no-install-recommends \
-          #     numactl rlwrap;
-
-          echo "gh auth status:";
-          gh auth status || true;
-          echo "gh auth scopes:";
-          gh api -i -X GET --silent rate_limit | grep -i 'x-oauth-scopes:' || true;
+          apt update;
+          DEBIAN_FRONTEND=noninteractive \
+          apt install -y --no-install-recommends \
+              numactl rlwrap;
 
           git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
           mv /tmp/repo/home/coder/.gitconfig /home/coder/.gitconfig;
@@ -44,18 +39,12 @@ jobs:
           chown -R coder:coder /home/coder/;
           rm -rf /tmp/repo;
 
-          su - coder -c "bash -ic '            \
-            VAULT_HOST=${VAULT_HOST}           \
-            GH_TOKEN=${GITHUB_TOKEN}           \
-            GITHUB_TOKEN=${GITHUB_TOKEN}       \
-            SCCACHE_BUCKET=${SCCACHE_BUCKET}   \
-            SCCACHE_REGION=${SCCACHE_REGION}   \
-            ~/.local/bin/entrypoint echo yooo'";
-
-          # su - coder -c "bash -ic '            \
-          #   VAULT_HOST=${VAULT_HOST}           \
-          #   GH_TOKEN=${GITHUB_TOKEN}           \
-          #   GITHUB_TOKEN=${GITHUB_TOKEN}       \
-          #   SCCACHE_BUCKET=${SCCACHE_BUCKET}   \
-          #   SCCACHE_REGION=${SCCACHE_REGION}   \
-          #   ~/.local/bin/entrypoint build-all'";
+          exec sudo -u coder --preserve-env=\
+          GH_TOKEN,\
+          VAULT_HOST,\
+          SCCACHE_REGION,\
+          SCCACHE_BUCKET,\
+          SCCACHE_S3_KEY_PREFIX,\
+          DEFAULT_CONDA_ENV,\
+          PYTHONDONTWRITEBYTECODE \
+            bash -ic '~/.local/bin/entrypoint build-all';
