@@ -39,7 +39,7 @@ jobs:
           chown -R coder:coder /home/coder/;
           rm -rf /tmp/repo;
 
-          exec sudo -u coder --preserve-env=\
+          exec sudo -iu coder --preserve-env=\
           GH_TOKEN,\
           VAULT_HOST,\
           SCCACHE_REGION,\
