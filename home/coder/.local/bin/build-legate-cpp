@@ -25,6 +25,7 @@ build_legate_cpp() {
     cmake_args+=(-DLegion_USE_LLVM=${USE_LLVM:-OFF});
     cmake_args+=(-DLegion_USE_OpenMP=${USE_OPENMP:-OFF});
     cmake_args+=(-Dlegate_core_BUILD_DOCS=ON);
+    cmake_args+=(-DCMAKE_BUILD_PARALLEL_LEVEL=${JOBS:-$(nproc --ignore=1)});
     cmake_args+=(${@});
 
     cmake -S ~/legate -B ~/legate/build "${cmake_args[@]}" -GNinja;
