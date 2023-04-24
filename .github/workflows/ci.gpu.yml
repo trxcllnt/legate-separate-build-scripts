@@ -40,4 +40,4 @@ jobs:
           chown -R coder:coder /home/coder/;
           rm -rf /tmp/repo;
 
-          su coder -Pc "~/.local/bin/entrypoint bash -i build-all";
+          su coder -Pc "~/.local/bin/entrypoint bash -ic 'PATH=$CUDA_HOME/bin:\$PATH build-all'";
