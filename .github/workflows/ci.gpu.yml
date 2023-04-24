@@ -15,6 +15,8 @@ jobs:
       options: -u root
       image: rapidsai/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
       env:
+        JOBS: 1
+        CMAKE_BUILD_PARALLEL_LEVEL: 1
         PYTHONDONTWRITEBYTECODE: 1
         SCCACHE_REGION: us-east-2
         SCCACHE_BUCKET: rapids-sccache-devs
@@ -38,20 +40,4 @@ jobs:
           chown -R coder:coder /home/coder/;
           rm -rf /tmp/repo;
 
-          su - coder -Pc "                                             \
-          JOBS=1                                                       \
-          CMAKE_BUILD_PARALLEL_LEVEL=1                                 \
-          PATH=${PATH}                                                 \
-          VAULT_HOST=${VAULT_HOST}                                     \
-          GH_TOKEN=${GITHUB_TOKEN}                                     \
-          GITHUB_TOKEN=${GITHUB_TOKEN}                                 \
-          SCCACHE_BUCKET=${SCCACHE_BUCKET}                             \
-          SCCACHE_REGION=${SCCACHE_REGION}                             \
-          SCCACHE_S3_KEY_PREFIX=${SCCACHE_S3_KEY_PREFIX}               \
-          PYTHONDONTWRITEBYTECODE=${PYTHONDONTWRITEBYTECODE}           \
-          RUSTC_WRAPPER=${RUSTC_WRAPPER}                               \
-          SCCACHE_IDLE_TIMEOUT=${SCCACHE_IDLE_TIMEOUT}                 \
-          CMAKE_C_COMPILER_LAUNCHER=${CMAKE_C_COMPILER_LAUNCHER}       \
-          CMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER}   \
-          CMAKE_CUDA_COMPILER_LAUNCHER=${CMAKE_CUDA_COMPILER_LAUNCHER} \
-            ~/.local/bin/entrypoint bash -i build-all";
+          su coder -Pc "~/.local/bin/entrypoint bash -i build-all";
