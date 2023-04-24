@@ -4,8 +4,6 @@ set -e;
 
 cd ~/;
 
-sccache --stop-server || true && sccache --show-stats;
-
 # clone-legion;
 clone-legate-core;
 clone-cunumeric;
