@@ -34,11 +34,11 @@ build_legate_cpp() {
         's/= unknown/= unknown + ["--prefix", args.prefix]/' \
         ~/legate/build/_deps/legion-src/bindings/python/setup.py;
 
-    sccache --show-stats;
+    sccache --stop-server || true && sccache --show-stats;
 
-    time cmake --build ~/legate/build --parallel ${JOBS:-$(nproc --ignore=1)};
+    time cmake --build ~/legate/build --verbose --parallel ${JOBS:-$(nproc --ignore=1)};
 
-    sccache --show-stats;
+    sccache --stop-server || true && sccache --show-stats;
 
     (
     mkdir -p /tmp/out;

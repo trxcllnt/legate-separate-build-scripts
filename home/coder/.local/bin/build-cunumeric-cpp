@@ -15,11 +15,11 @@ build_cunumeric_cpp() {
 
     cmake -S ~/cunumeric -B ~/cunumeric/build ${cmake_args[@]} -GNinja;
 
-    sccache --show-stats;
+    sccache --stop-server || true && sccache --show-stats;
 
-    time cmake --build ~/cunumeric/build --parallel ${JOBS:-$(nproc --ignore=1)};
+    time cmake --build ~/cunumeric/build --verbose --parallel ${JOBS:-$(nproc --ignore=1)};
 
-    sccache --show-stats;
+    sccache --stop-server || true && sccache --show-stats;
 
     (
     mkdir -p /tmp/out;

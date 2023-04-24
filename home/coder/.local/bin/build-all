@@ -2,7 +2,9 @@
 
 set -e;
 
-cd ~/
+cd ~/;
+
+sccache --stop-server || true && sccache --show-stats;
 
 # clone-legion;
 clone-legate-core;
