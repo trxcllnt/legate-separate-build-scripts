@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 make_conda_env() {
-    set -e;
+    set -ex;
 
     local cuda_version="${CUDA_VERSION:-${CUDA_VERSION_MAJOR}.${CUDA_VERSION_MINOR}}";
     cuda_version="$(echo "${cuda_version}" | cut -d'.' -f3 --complement)";
@@ -12,7 +12,7 @@ make_conda_env() {
         python_version="$(python3 --version 2>&1 | cut -d' ' -f2 | cut -d'.' -f3 --complement)";
     fi
 
-    mamba env create -n legate -f ~/"$(         \
+    local env_file="$(                          \
         ~/legate/scripts/generate-conda-envs.py \
             --os linux                          \
             --compilers                         \
@@ -23,7 +23,9 @@ make_conda_env() {
         | head -n1 | cut -d' ' -f3              \
     )";
 
-    mamba install -y -n legate -c conda-forge boa;
+    echo "- boa" >> ~/"${env_file}";
+
+    mamba env create -n legate -f ~/"${env_file}";
 
     { set +x; } 2>/dev/null;
 
