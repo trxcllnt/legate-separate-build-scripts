@@ -1,3 +1,5 @@
+#! /usr/bin/env bash
+
 echo "pwd: $(pwd)";
 echo "uid: $(whoami) $(id -u):$(id -g)";
 echo "env:";
