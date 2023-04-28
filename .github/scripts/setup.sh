@@ -2,7 +2,7 @@ echo "pwd: $(pwd)";
 echo "uid: $(whoami) $(id -u):$(id -g)";
 echo "env:";
 env;
-ls -all .;
+ls -all . ./repo;
 
 cp -ar repo/home/coder/.local /home/coder/.local;
 cp -ar repo/home/coder/.gitconfig /home/coder/.gitconfig;
