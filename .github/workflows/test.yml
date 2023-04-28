@@ -36,6 +36,12 @@ jobs:
       - name: Setup
         shell: bash --noprofile --norc -x -eo pipefail {0}
         run: |
+          echo "pwd: $(pwd)";
+          echo "uid: $(whoami) $(id -u):$(id -g)";
+          echo "env:";
+          env;
+          ls -all .;
+
           mv repo/home/coder/.local/bin /home/coder/.local/bin;
           mv repo/home/coder/.gitconfig /home/coder/.gitconfig;
           chmod +x /home/coder/.local/bin/*;
@@ -49,12 +55,10 @@ jobs:
 
 
       - name: Build
-        shell: su coder -Pc {0}
+        shell: su coder -Pc 'bash -lix {0}'
         run: |
           echo "pwd: $(pwd)";
           echo "uid: $(whoami) $(id -u):$(id -g)";
           echo "env:";
           env;
-
-          # . ~/.local/bin/entrypoint;
-          # build-all;
+          ls -all .;
