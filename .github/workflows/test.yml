@@ -35,30 +35,8 @@ jobs:
 
       - name: Setup
         shell: bash --noprofile --norc -x -eo pipefail {0}
-        run: |
-          echo "pwd: $(pwd)";
-          echo "uid: $(whoami) $(id -u):$(id -g)";
-          echo "env:";
-          env;
-          ls -all .;
-
-          mv repo/home/coder/.local/bin /home/coder/.local/bin;
-          mv repo/home/coder/.gitconfig /home/coder/.gitconfig;
-          chmod +x /home/coder/.local/bin/*;
-          chown -R coder:coder /home/coder/;
-          rm -rf repo;
-
-          apt update;
-          DEBIAN_FRONTEND=noninteractive \
-          apt install -y --no-install-recommends \
-              numactl rlwrap;
-
+        run: ./repo/.github/scripts/setup.sh
 
       - name: Build
         shell: su coder -Pc 'bash -lix {0}'
-        run: |
-          echo "pwd: $(pwd)";
-          echo "uid: $(whoami) $(id -u):$(id -g)";
-          echo "env:";
-          env;
-          ls -all .;
+        run: ./repo/.github/scripts/setup.sh
