@@ -1,6 +1,6 @@
 ARG CUDA=11.8
 # FROM rapidsai/devcontainers:23.06-cpp-mambaforge-ubuntu22.04
-FROM rapidsai/devcontainers:23.06-cpp-cuda${CUDA}-mambaforge-ubuntu22.04
+FROM pauletaylor/devcontainers:23.06-cpp-cuda${CUDA}-mambaforge-ubuntu22.04
 # FROM rapidsai/devcontainers:23.06-cpp-llvm15-rust-cuda${CUDA}-mambaforge-ubuntu22.04
 # FROM rapidsai/devcontainers:23.06-cpp-llvm16-rust-cuda${CUDA}-mambaforge-ubuntu22.04
 
@@ -36,5 +36,3 @@ COPY --chown=coder:coder home/coder/.gitconfig /home/coder/
 COPY --chown=coder:coder home/coder/.local/bin/* /home/coder/.local/bin/
 
 ENTRYPOINT ["/home/coder/.local/bin/entrypoint"]
-
-CMD ["/bin/bash", "-l"]

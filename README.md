@@ -11,7 +11,7 @@ docker build -t legate-separate-build-scripts .
 docker run --rm -it -u coder \
     -v "$(pwd)/out:/tmp/out" \
     legate-separate-build-scripts \
-    /bin/bash -i build-all
+    build-all
 ```
 
 To run headlessly:
@@ -35,5 +35,5 @@ docker run --rm -it -u coder \
     -v "$(pwd)/out:/tmp/out" \
     -v "$(pwd)/.creds:/run/secrets" \
     legate-separate-build-scripts \
-    /bin/bash -i build-all
+    build-all
 ```
