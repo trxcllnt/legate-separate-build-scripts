@@ -1,14 +1,9 @@
-echo "pwd: $(pwd)";
-echo "uid: $(whoami) $(id -u):$(id -g)";
-echo "env:";
-env;
-ls -all .;
+#! /usr/bin/env bash
 
-cp -ar repo/home/coder/.local /home/coder/.local;
-cp -ar repo/home/coder/.gitconfig /home/coder/.gitconfig;
+mv repo/home/coder/.local /home/coder/;
+mv repo/home/coder/.gitconfig /home/coder/;
 chmod +x /home/coder/.local/bin/*;
 chown -R coder:coder /home/coder/;
-rm -rf repo;
 
 apt update;
 DEBIAN_FRONTEND=noninteractive \

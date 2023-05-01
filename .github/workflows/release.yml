@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       options: -u root
-      image: rapidsai/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
+      image: pauletaylor/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
       env:
         JOBS: 1
         CMAKE_BUILD_PARALLEL_LEVEL: 1
@@ -22,22 +22,21 @@ jobs:
         SCCACHE_BUCKET: rapids-sccache-devs
         SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
         VAULT_HOST: https://vault.ops.k8s.rapids.ai
-        GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
-        GITHUB_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+        GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}"
     steps:
+
+      - name: Clone
+        uses: actions/checkout@v3
+        with:
+          path: repo
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup
+        shell: bash --noprofile --norc -eo pipefail {0}
+        run: ./repo/.github/scripts/setup.sh
+
       - name: Build
-        shell: bash -eo pipefail {0}
-        run: |
-          apt update;
-          DEBIAN_FRONTEND=noninteractive \
-          apt install -y --no-install-recommends \
-              numactl rlwrap;
-
-          git clone https://github.com/trxcllnt/legate-separate-build-scripts.git /tmp/repo;
-          mv /tmp/repo/home/coder/.gitconfig /home/coder/.gitconfig;
-          mv /tmp/repo/home/coder/.local /home/coder/.local;
-          chmod a+x /home/coder/.local/bin/*;
-          chown -R coder:coder /home/coder/;
-          rm -rf /tmp/repo;
-
-          su coder -Pc "~/.local/bin/entrypoint bash -ic 'PATH=$CUDA_HOME/bin:\$PATH build-all'";
+        shell: su coder {0}
+        run: ./repo/.github/scripts/build.sh

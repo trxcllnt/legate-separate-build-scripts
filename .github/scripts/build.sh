@@ -1,5 +1,7 @@
-echo "pwd: $(pwd)";
-echo "uid: $(whoami) $(id -u):$(id -g)";
-echo "env:";
-env;
-ls -all .;
+#! /usr/bin/env bash
+
+echo "cwd: $(pwd)";
+echo "user: $(whoami) ($(id -u):$(id -g))";
+echo "PATH: $PATH";
+
+exec ~/.local/bin/entrypoint build-all;

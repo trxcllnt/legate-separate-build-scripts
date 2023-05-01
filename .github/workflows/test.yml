@@ -1,7 +1,7 @@
 name: Test
 
 concurrency:
-  group: pr-on-${{ github.event_name }}-from-${{ github.ref_name }}
+  group: test-on-${{ github.event_name }}-from-${{ github.ref_name }}
   cancel-in-progress: true
 
 on:
@@ -34,9 +34,9 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup
-        shell: bash --noprofile --norc -x -eo pipefail {0}
+        shell: bash --noprofile --norc -eo pipefail {0}
         run: ./repo/.github/scripts/setup.sh
 
       - name: Build
-        shell: su coder -Pc 'bash -lix {0}'
-        run: ./repo/.github/scripts/setup.sh
+        shell: su coder {0}
+        run: ./repo/.github/scripts/build.sh
