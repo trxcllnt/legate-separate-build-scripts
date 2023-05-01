@@ -23,7 +23,11 @@ make_conda_env() {
         | head -n1 | cut -d' ' -f3              \
     )";
 
-    echo "- boa" >> ~/"${env_file}";
+    sed -i -re "s/legate-test/legate/g" ~/"${env_file}";
+
+    echo "  - boa" >> ~/"${env_file}";
+
+    cat ~/"${env_file}";
 
     mamba env create -n legate -f ~/"${env_file}";
 
