@@ -35,8 +35,10 @@ jobs:
 
       - name: Setup
         shell: bash --noprofile --norc -eo pipefail {0}
-        run: ${{ env.GITHUB_WORKSPACE }}/repo/.github/scripts/setup.sh
+        run: |
+          exec ${GITHUB_WORKSPACE}/repo/.github/scripts/setup.sh
 
       - name: Build
         shell: su - coder {0}
-        run: ${{ env.GITHUB_WORKSPACE }}/repo/.github/scripts/build.sh
+        run: |
+          exec ${GITHUB_WORKSPACE}/repo/.github/scripts/build.sh
