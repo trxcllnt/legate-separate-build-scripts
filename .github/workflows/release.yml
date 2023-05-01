@@ -38,5 +38,5 @@ jobs:
         run: ./repo/.github/scripts/setup.sh
 
       - name: Build
-        shell: su coder {0}
+        shell: su - coder {0}
         run: ./repo/.github/scripts/build.sh
