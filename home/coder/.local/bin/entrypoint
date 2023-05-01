@@ -15,7 +15,7 @@ entrypoint() {
     mkdir -p /home/coder/.cache;
 
     . devcontainer-utils-post-attach-command;
-    sleep 5;
+    sleep 10;
     . devcontainer-utils-vault-s3-test;
     . devcontainer-utils-vault-s3-export 0;
 
