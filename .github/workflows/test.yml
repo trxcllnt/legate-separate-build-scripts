@@ -18,6 +18,7 @@ jobs:
         JOBS: 1
         CMAKE_BUILD_PARALLEL_LEVEL: 1
         PYTHONDONTWRITEBYTECODE: 1
+        DEFAULT_CONDA_ENV: legate
         SCCACHE_REGION: us-east-2
         SCCACHE_BUCKET: rapids-sccache-devs
         SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
