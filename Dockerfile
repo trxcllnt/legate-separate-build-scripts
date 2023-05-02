@@ -9,6 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive       \
  && sudo apt install -y --no-install-recommends \
     numactl rlwrap
 
+ENV DEFAULT_CONDA_ENV=legate
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV SCCACHE_REGION="us-east-2"
 ENV SCCACHE_BUCKET="rapids-sccache-devs"
@@ -36,5 +37,3 @@ COPY --chown=coder:coder home/coder/.gitconfig /home/coder/
 COPY --chown=coder:coder home/coder/.local/bin/* /home/coder/.local/bin/
 
 ENTRYPOINT ["/home/coder/.local/bin/entrypoint"]
-
-CMD ["/bin/bash", "-l"]

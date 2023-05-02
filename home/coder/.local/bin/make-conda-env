@@ -23,16 +23,25 @@ make_conda_env() {
         | head -n1 | cut -d' ' -f3              \
     )";
 
-    echo "- boa" >> ~/"${env_file}";
+    sed -i -re "s/legate-test/${DEFAULT_CONDA_ENV:-legate}/g" ~/"${env_file}";
 
-    mamba env create -n legate -f ~/"${env_file}";
+    echo "  - boa" >> ~/"${env_file}";
+
+    cat ~/"${env_file}";
+
+    if ! type conda >/dev/null 2>&1; then
+        . /opt/conda/etc/profile.d/conda.sh;
+    fi
+
+    if ! type mamba >/dev/null 2>&1; then
+        . /opt/conda/etc/profile.d/mamba.sh;
+    fi
+
+    mamba env create -n "${DEFAULT_CONDA_ENV:-legate}" -f ~/"${env_file}";
 
     { set +x; } 2>/dev/null;
 
-    conda activate legate;
+    conda activate "${DEFAULT_CONDA_ENV:-legate}" 2>/dev/null;
 }
-
-. /opt/conda/etc/profile.d/conda.sh;
-. /opt/conda/etc/profile.d/mamba.sh;
 
 make_conda_env "$@";

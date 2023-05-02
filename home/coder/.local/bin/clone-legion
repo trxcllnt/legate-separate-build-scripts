@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 clone_legion() {
-    set -e;
+    set -ex;
 
     glab repo clone StanfordLegion/legion ~/legion -- --branch control_replication
 
@@ -10,4 +10,4 @@ clone_legion() {
     { set +x; } 2>/dev/null;
 }
 
-clone_legion "$@";
+(clone_legion "$@");
