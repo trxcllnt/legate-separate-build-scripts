@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 build_legate_conda_package() {
-    set -e;
+    set -ex;
 
     local python_version="${PYTHON_VERSION:-}";
 
@@ -13,7 +13,7 @@ build_legate_conda_package() {
     conda_build_args+=(--override-channels);
     conda_build_args+=(-c conda-forge);
     conda_build_args+=(-c nvidia);
-    conda_build_args+=(--croot /tmp/conda-build/legate_core);
+    conda_build_args+=(--croot /tmp/out/conda-build/legate_core);
     conda_build_args+=(--numpy 1.22);
     conda_build_args+=(--python ${python_version});
     conda_build_args+=(--no-test);
@@ -24,8 +24,8 @@ build_legate_conda_package() {
     conda_build_args+=(--no-anaconda-upload);
     conda_build_args+=(--variants "{gpu_enabled:true,python:${python_version}}");
 
-    rm -rf /tmp/conda-build/legate_core;
-    mkdir -p /tmp/conda-build/legate_core;
+    rm -rf /tmp/out/conda-build/legate_core;
+    mkdir -p /tmp/out/conda-build/legate_core;
 
     # Synthesize new legate_core conda-build build.sh script
 
@@ -61,9 +61,7 @@ EOF
 
     git -C ~/legate reset --hard HEAD~1;
 
-    cp /tmp/conda-build/legate_core/linux-64/legate-*.tar.bz2 /tmp/out/;
-
     { set +x; } 2>/dev/null;
 }
 
-build_legate_conda_package "$@";
+(build_legate_conda_package "$@");
