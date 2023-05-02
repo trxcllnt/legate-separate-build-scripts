@@ -1,6 +1,6 @@
 ARG CUDA=11.8
 # FROM rapidsai/devcontainers:23.06-cpp-mambaforge-ubuntu22.04
-FROM pauletaylor/devcontainers:23.06-cpp-cuda${CUDA}-mambaforge-ubuntu22.04
+FROM rapidsai/devcontainers:23.06-cpp-cuda${CUDA}-mambaforge-ubuntu22.04
 # FROM rapidsai/devcontainers:23.06-cpp-llvm15-rust-cuda${CUDA}-mambaforge-ubuntu22.04
 # FROM rapidsai/devcontainers:23.06-cpp-llvm16-rust-cuda${CUDA}-mambaforge-ubuntu22.04
 
@@ -9,6 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive       \
  && sudo apt install -y --no-install-recommends \
     numactl rlwrap
 
+ENV DEFAULT_CONDA_ENV=legate
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV SCCACHE_REGION="us-east-2"
 ENV SCCACHE_BUCKET="rapids-sccache-devs"
