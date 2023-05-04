@@ -3,7 +3,7 @@
 build_cunumeric_cpp() {
     set -ex;
 
-    sccache --show-stats;
+    sccache --stop-server 2>/dev/null || SCCACHE_NO_DAEMON=1 sccache --show-stats;
 
     # Build + package cuNumeric C++ libs
     local cmake_args=(${CMAKE_ARGS:-});
@@ -17,11 +17,11 @@ build_cunumeric_cpp() {
 
     cmake -S ~/cunumeric -B ~/cunumeric/build ${cmake_args[@]} -GNinja;
 
-    sccache --show-stats;
+    sccache --stop-server 2>/dev/null || SCCACHE_NO_DAEMON=1 sccache --show-stats;
 
     time cmake --build ~/cunumeric/build --verbose --parallel ${JOBS:-$(nproc --ignore=1)};
 
-    sccache --show-stats;
+    sccache --stop-server 2>/dev/null || SCCACHE_NO_DAEMON=1 sccache --show-stats;
 
     (
     mkdir -p /tmp/out;
