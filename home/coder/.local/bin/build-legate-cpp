@@ -3,6 +3,8 @@
 build_legate_cpp() {
     set -ex;
 
+    sccache --show-stats;
+
     # Build + package legate.core C++ libs
     local cmake_args=(${CMAKE_ARGS:-});
     cmake_args+=(-DBUILD_SHARED_LIBS=ON);
