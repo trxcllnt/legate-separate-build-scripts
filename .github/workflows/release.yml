@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       options: -u root
-      image: pauletaylor/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
+      image: rapidsai/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
       env:
         JOBS: 1
         CMAKE_BUILD_PARALLEL_LEVEL: 1
