@@ -33,6 +33,7 @@ USER coder
 WORKDIR /home/coder/.cache
 WORKDIR /home/coder
 
+COPY --chown=root:root home/coder/.gitconfig /root/
 COPY --chown=coder:coder home/coder/.gitconfig /home/coder/
 COPY --chown=coder:coder home/coder/.local/bin/* /home/coder/.local/bin/
 

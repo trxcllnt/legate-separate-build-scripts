@@ -5,6 +5,8 @@ build_all() {
 
     cd ~/;
 
+    sccache --stop-server 2>/dev/null || SCCACHE_NO_DAEMON=1 sccache --show-stats;
+
     # clone-legion;
     clone-legate-core;
     clone-cunumeric;
