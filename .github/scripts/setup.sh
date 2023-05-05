@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 mv repo/home/coder/.local /home/coder/;
-mv repo/home/coder/.gitconfig /root/;
+cp repo/home/coder/.gitconfig /root/;
 mv repo/home/coder/.gitconfig /home/coder/;
 chmod +x /home/coder/.local/bin/*;
 chown -R coder:coder /home/coder/;
